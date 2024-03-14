@@ -37,22 +37,44 @@
                                         </c:forEach>
                                     </select>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked">
-                                        <label class="form-check-label" for="flexCheckChecked">
+                                        <input class="form-check-input" type="checkbox" value="" id="commitCheckbox" required>
+                                        <label class="form-check-label" for="commitCheckbox">
                                             I commit this change
                                         </label>
                                     </div>
-                                    <button class="btn btn-primary">Save</button>
+                                    <button class="btn btn-primary" onclick="validateCommit()">Save</button>
                                 </form>
+                                    
+                                <script>
+                                    function validateCommit() {
+                                        const commitCheckbox = document.getElementById('commitCheckbox');
+                                        if (!commitCheckbox.checked) {
+                                            alert('Please check the "I commit this change" box.');
+                                            return false; // Prevent form submission
+                                        } else{
+                                            alert('Up date status successful');
+                                            return false; // Prevent form submission
+                                        }
+                                        // If checkbox is checked, allow form submission
+                                        showSuccessMessage();
+                                        return true;
+                                    }
+                                </script>
+                                
                             </div>
                         </div>
-                        <button style="width: 200px" class="btn btn-primary" >UserId: 1</button>
+                        <div style="background: antiquewhite" class="p-3 col-md-6">
+                            <b>User information :</b>
+                            <p>User name : ${requestScope.account.username}</p>
+                            <p>User phone : ${requestScope.account.phone}</p>
+                            <button class="btn btn-primary">View account detail</button>
+                        </div>
                         <div>
                             <p><b>Time:</b> ${requestScope.displayRequestData.timestamp}</p>
-                            <p><b>Service type:</b> </p>
-                            <p><b>Service:</b> </p>
+                            <p><b>Service type:</b> ${requestScope.publicService.type}</p>
+                            <p><b>Service:</b> ${requestScope.publicService.name} </p>
                             <p><b>Request content:</b> ${requestScope.displayRequestData.description}</p>
-                            <p><b>Attached files:</b> </p>
+                            <a href="${requestScope.displayRequestData.fileUrl}" ><b>Attached files</b></a>
                         </div>
                     </div>
                 </div>
@@ -75,7 +97,7 @@
                                     <td>${r.timestamp}</td>
                                     <td>${r.description}</td>
                                     <td style=" border-radius: 20px">${r.requestStatusId}</td>
-                                    <td><button class="btn btn-primary">View</button></td>
+                                    <td><a href="/SDWProject/Home?id=${r.id}" class="btn btn-primary">View</a></td>
                                 </tr>
                             </c:forEach>
                             </tbody>

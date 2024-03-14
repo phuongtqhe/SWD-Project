@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.Request;
-import model.RequestStatus;
 
 /**
  *
@@ -29,6 +28,7 @@ public class RequestService extends DBContext {
                 p.setId(rs.getInt("id"));
                 p.setServiceId(rs.getInt("serviceId"));
                 p.setDescription(rs.getNString("description"));
+                p.setFileUrl(rs.getString("fileUrl"));
                 p.setAccountId(rs.getInt("accountId"));
                 p.setRequestStatusId(rs.getInt("requestStatusId"));
                 p.setTimestamp(rs.getString("timestamp"));
@@ -51,6 +51,7 @@ public class RequestService extends DBContext {
                 p.setServiceId(rs.getInt("serviceId"));
                 p.setDescription(rs.getNString("description"));
                 p.setAccountId(rs.getInt("accountId"));
+                p.setFileUrl(rs.getString("fileUrl"));
                 p.setRequestStatusId(rs.getInt("requestStatusId"));
                 p.setTimestamp(rs.getString("timestamp"));
                 list.add(p);

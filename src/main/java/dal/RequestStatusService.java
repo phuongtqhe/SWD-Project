@@ -16,7 +16,7 @@ import model.RequestStatus;
  *
  * @author pc
  */
-public class CommonService extends DBContext{
+public class RequestStatusService extends DBContext{
      public RequestStatus getRequestStatusById(int id){
         String sql = "select * from RequestStatus where id= ?";
         RequestStatus p = new RequestStatus();

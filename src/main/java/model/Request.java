@@ -10,9 +10,17 @@ package model;
  */
 public class Request {
     private int id, serviceId, accountId, requestStatusId;
-    private String timestamp, description;
+    private String timestamp, description, fileUrl;
 
     public Request() {
+    }
+
+    public String getFileUrl() {
+        return fileUrl;
+    }
+
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
     

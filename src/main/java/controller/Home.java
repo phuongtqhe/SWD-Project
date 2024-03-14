@@ -5,7 +5,9 @@
 
 package controller;
 
-import dal.CommonService;
+import dal.AccountService;
+import dal.PublicServiceService;
+import dal.RequestStatusService;
 import dal.RequestService;
 import model.Request;
 import java.io.IOException;
@@ -17,6 +19,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
+import model.Account;
+import model.PublicService;
 import model.RequestStatus;
 
 /**
@@ -24,7 +28,7 @@ import model.RequestStatus;
  * @author pc
  */
 @WebServlet(name="GetAllRequest", urlPatterns={"/Home"})
-public class GetAllRequest extends HttpServlet {
+public class Home extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -61,22 +65,37 @@ public class GetAllRequest extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        RequestService pd = new RequestService();
-        CommonService cs = new CommonService();
+        //service define
+        RequestService requestService = new RequestService();
+        RequestStatusService requestStatusService = new RequestStatusService();
+        PublicServiceService publicServiceService = new PublicServiceService();
+        AccountService accountService = new AccountService();
+        
+        //list data model
+        List<Request> requestList = requestService.getAllRequest();
+        List<RequestStatus> requestStatus = requestStatusService.GetAllRequestStatus();
+        
+        //data model
+        Request requestData = new Request();
+        PublicService publicService = new PublicService();
+        Account account = new Account();
+        
+        //data asign
         int id =-1;
         if(request.getParameter("id") != null){
             id = Integer.parseInt((String)request.getParameter("id"));
         }
-        List<Request> requestList = new ArrayList<Request>();
-        Request requestData = new Request();
-        List<RequestStatus> requestStatus = cs.GetAllRequestStatus();
-        requestList = pd.getAllRequest();
+       
         
         if(id != -1) {
-            requestData = pd.getRequestByID(id);
+            requestData = requestService.getRequestByID(id);
+            publicService = publicServiceService.getPublicServiceByID(id);
+            account = accountService.getAccountByID(requestData.getAccountId());
         }
         
+        request.setAttribute("account", account);
         request.setAttribute("requestStatus", requestStatus);
+        request.setAttribute("publicService", publicService);
         request.setAttribute("displayRequestData", requestData);
         request.setAttribute("data", requestList);
         request.getRequestDispatcher("Home.jsp").forward(request, response);
